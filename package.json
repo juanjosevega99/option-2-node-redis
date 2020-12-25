@@ -1,0 +1,19 @@
+{
+  "name": "option-2-node-redis",
+  "version": "1.0.0",
+  "description": "Cach Learn to Cache your NodeJS Application with Redis",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index"
+  },
+  "author": "Juan Jose Vega",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1",
+    "redis": "^3.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
