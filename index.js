@@ -14,6 +14,22 @@ const redis_client = redis.createClient(port_redis);
 //configure express server
 const app = express();
 
+//Middleware Function to Check Cache
+checkCache = (req, res, next) => {
+  const { id } = req.params;
+
+  redis_client.get(id, (err, data) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    if (data != null) {
+      res.send(data);
+    } else {
+      next();
+    }
+  });
+};
+
 app.get("/starships/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -22,6 +38,9 @@ app.get("/starships/:id", async (req, res) => {
     );
 
     const starShipInfoData = starShipInfo.data;
+
+    //add data to Redis
+    redis_client.setex(id, 3600, JSON.stringify(starShipInfoData));
 
     return res.json(starShipInfoData);
   } catch (error) {
