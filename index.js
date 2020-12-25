@@ -14,5 +14,20 @@ const redis_client = redis.createClient(port_redis);
 //configure express server
 const app = express();
 
+app.get("/starships/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const starShipInfo = await axios.get(
+      `https://swapi.co/api/starships/${id}`
+    );
+
+    const starShipInfoData = starShipInfo.data;
+
+    return res.json(starShipInfoData);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+});
+
 //listen on port 4000;
 app.listen(port, () => console.log(`Server running on Port ${port}`));
